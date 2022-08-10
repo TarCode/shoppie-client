@@ -4,28 +4,34 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
+import {
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query'
 import { Login } from "./views/login";
 import { Register } from "./views/register";
 
-export default function App() {
+const queryClient = new QueryClient()
 
+export default function App() {
   const token = localStorage.getItem('token')
   return (
-    <Router>
-      <div className="container">
-        {
-          token ?
-            <Routes>
-              <Route path="/" element={<Home />}></Route>
-            </Routes> :
-            <Routes>
-              <Route path="/" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-            </Routes>
-        }
-      </div>
-
-    </Router>
+    <QueryClientProvider client={queryClient}>
+      <Router>
+        <div className="container">
+          {
+            token ?
+              <Routes>
+                <Route path="/" element={<Home />}></Route>
+              </Routes> :
+              <Routes>
+                <Route path="/" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+              </Routes>
+          }
+        </div>
+      </Router>
+    </QueryClientProvider>
   );
 }
 
