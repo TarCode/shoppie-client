@@ -11,16 +11,18 @@ import {
 import { Login } from "./views/login";
 import { Register } from "./views/register";
 
+import './App.css'
+
 const queryClient = new QueryClient()
 
 export default function App() {
-  const token = localStorage.getItem('token')
+  const isLoggedIn = localStorage.getItem('user')
   return (
     <QueryClientProvider client={queryClient}>
       <Router>
         <div className="container">
           {
-            token ?
+            isLoggedIn ?
               <Routes>
                 <Route path="/" element={<Home />}></Route>
               </Routes> :

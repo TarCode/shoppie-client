@@ -1,47 +1,54 @@
-import { useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
+import { useForm } from 'react-hook-form'
+import axios from 'axios';
+
 export function Login() {
 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-
-
+  const { register, handleSubmit, setError, clearErrors, formState: { errors } } = useForm();
+  
   const mutation = useMutation((data) =>
-    fetch('https://murmuring-harbor-47924.herokuapp.com/user/login', {
-      method: 'POST',
-      body: JSON.stringify(data),
-      headers: {
-        'Content-Type': 'application/json',
-        'accept': 'application/json'
+    axios({
+      method: 'post',
+      url: 'http://localhost:8080/user/login',
+      data
+    }), {
+    onSuccess: (response) => {
+      if (response.data) {
+        localStorage.setItem('user', JSON.stringify(response.data))
+        window.location = '/'
+      } else {
+        setError('form', { message: 'Something went wrong', type: 'form' })
       }
-    }).then(res => {
-      return res.json()
-    }
-
-    ), {
-    onSuccess: (data) => {
-      // Invalidate and refetch
-      // queryClient.invalidateQueries(['todos'])
-      console.log('DATA ON SUCCESS', data);
     },
-    onError: (error) => {
-      console.log('ERROR', error);
+    onError: (errorRes) => {
+      const { missingFields, error } = errorRes.response.data
+      if (error) {
+        setError('form', { message: error, type: 'form' })
+      }
+      if (missingFields) {
+        const { email, password } = missingFields
+        if (email){
+          setError('email', { message: email })
+        }
+        if (password) {
+          setError('password', { message: password })
+        }
+      }
     }
   })
 
+  const onSubmit = (data) => {
+    mutation.mutate(data)
+  }
   return (
-    <form onSubmit={(e) => {
-      e.preventDefault()
-      console.log('THE FORM VALUES', email, password)
-      mutation.mutate({
-        email,
-        password
-      })
-    }}>
+    <form onClick={() => clearErrors()} onSubmit={handleSubmit(onSubmit)}>
       <h2>Login</h2>
-      <input value={email} onChange={e => setEmail(e.target.value)} type="email" placeholder='Email' />
-      <input value={password} onChange={e => setPassword(e.target.value)} type="password" placeholder='Password' />
-      <button type="submit">Submit</button>
+      <label htmlFor='email'>Email {errors.email && <span className='error'>(This field is required)</span>}</label>
+      <input aria-invalid={errors.email ? 'true' : ''} {...register("email")} type="email" placeholder='Email' />
+      <label htmlFor='password'>Password {errors.password && <span className='error'>(This field is required)</span>}</label>
+      <input aria-invalid={errors.password ? 'true' : ''} {...register("password")} type="password" placeholder='Password' />
+      {errors.form && <span className='error'>{errors.form.message}</span>}
+      <button aria-busy={mutation.isLoading ? 'true' : ''} disabled={mutation.isLoading} type="submit">Submit</button>
     </form>
   );
 }
