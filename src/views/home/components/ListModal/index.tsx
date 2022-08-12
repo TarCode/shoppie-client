@@ -1,8 +1,9 @@
 import axios from 'axios'
 import { useForm } from 'react-hook-form'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 export function ListModal(props: any) {
+  const queryClient = useQueryClient()
   const {
     register,
     handleSubmit,
@@ -24,11 +25,28 @@ export function ListModal(props: any) {
         },
       }),
     {
-      onSuccess: (response) => {
-        console.log('List added ', response)
+      onMutate: async (newList) => {
+        // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
+        await queryClient.cancelQueries(['lists'])
+
+        // Snapshot the previous value
+        const previousLists = queryClient.getQueryData(['lists'])
+
+        // Optimistically update to the new value
+        queryClient.setQueryData(['lists'], (old: any) => [...old, newList])
+
+        // Return a context object with the snapshotted value
+        return { previousLists }
+      },
+      // If the mutation fails, use the context returned from onMutate to roll back
+      onError: (err, newList, context: any) => {
+        queryClient.setQueryData(['lists'], context.previousLists)
+      },
+      // Always refetch after error or success:
+      onSettled: () => {
+        queryClient.invalidateQueries(['lists'])
         props.setAddListOpen(false)
       },
-      onError: (errorRes: any) => {},
     },
   )
 

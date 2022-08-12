@@ -13,7 +13,7 @@ export function Home() {
       'x-access-token': user.token,
     },
   })
-  const { data: lists } = useQuery(['lists'], () => getLists, {
+  const { data: lists, refetch } = useQuery(['lists'], () => getLists, {
     select: (response) => {
       return response.data
     },
@@ -27,7 +27,8 @@ export function Home() {
         Add list
       </a>
       <h2>Home</h2>
-      <ListModal token={user.token} addListOpen={addListOpen} setAddListOpen={setAddListOpen} />
+      <ListModal refetch={refetch} token={user.token} addListOpen={addListOpen} setAddListOpen={setAddListOpen} />
+      {lists && lists.map((list: any) => <div key={list.id}>{list.name}</div>)}
     </div>
   )
 }
