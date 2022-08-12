@@ -10,7 +10,7 @@ import {
 } from '@tanstack/react-query'
 import { Login } from "./views/login";
 import { Register } from "./views/register";
-
+import { Home } from "./views/home";
 import './App.css'
 
 const queryClient = new QueryClient()
@@ -35,8 +35,4 @@ export default function App() {
       </Router>
     </QueryClientProvider>
   );
-}
-
-function Home() {
-  return <h2>Home</h2>;
 }
