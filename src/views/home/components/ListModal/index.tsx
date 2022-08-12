@@ -1,4 +1,7 @@
+import axios from 'axios'
 import { useForm } from 'react-hook-form'
+import { useMutation } from '@tanstack/react-query'
+
 export function ListModal(props: any) {
   const {
     register,
@@ -10,8 +13,27 @@ export function ListModal(props: any) {
     defaultValues: { name: 'List-' + new Date().toString().split(' ').slice(0, 5).join('-').replaceAll(':', '-') },
   })
 
+  const mutation = useMutation(
+    (data) =>
+      axios({
+        method: 'post',
+        url: 'http://localhost:8080/lists/',
+        data,
+        headers: {
+          'x-access-token': props.token,
+        },
+      }),
+    {
+      onSuccess: (response) => {
+        console.log('List added ', response)
+        props.setAddListOpen(false)
+      },
+      onError: (errorRes: any) => {},
+    },
+  )
+
   const onSubmit = (data: any) => {
-    console.log('VALUES', data)
+    mutation.mutate(data)
   }
   return (
     <dialog open={props.addListOpen}>
@@ -23,7 +45,9 @@ export function ListModal(props: any) {
         <form onSubmit={handleSubmit(onSubmit)}>
           <label>List name</label>
           <input {...register('name')} placeholder="List name" />
-          <button className="contrast">Add list</button>
+          <button aria-busy={mutation.isLoading ? true : false} className="contrast">
+            Add list
+          </button>
         </form>
       </article>
     </dialog>

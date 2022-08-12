@@ -27,7 +27,7 @@ export function Home() {
         Add list
       </a>
       <h2>Home</h2>
-      <ListModal addListOpen={addListOpen} setAddListOpen={setAddListOpen} />
+      <ListModal token={user.token} addListOpen={addListOpen} setAddListOpen={setAddListOpen} />
     </div>
   )
 }
