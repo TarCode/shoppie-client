@@ -2,18 +2,14 @@ import axios from 'axios'
 import { useForm } from 'react-hook-form'
 import { useMutation, useQueryClient } from 'react-query'
 
-export function ListModal(props: any) {
+export function DeleteListModal(props: any) {
+  const { handleSubmit } = useForm()
   const queryClient = useQueryClient()
-  const { register, handleSubmit, setValue } = useForm({
-    defaultValues: { name: 'List-' + new Date().toString().split(' ').slice(0, 5).join('-').replaceAll(':', '-') },
-  })
-
   const mutation = useMutation(
-    (data) =>
+    (id) =>
       axios({
-        method: 'post',
-        url: 'http://localhost:8080/lists/',
-        data,
+        method: 'delete',
+        url: 'http://localhost:8080/lists/' + id,
         headers: {
           'x-access-token': props.token,
         },
@@ -21,27 +17,25 @@ export function ListModal(props: any) {
     {
       onSettled: async () => {
         await queryClient.invalidateQueries(['lists'])
-        setValue('name', '')
-        props.setAddListOpen(false)
+        props.setDeleteListOpen(null)
       },
     },
   )
 
   const onSubmit = (data: any) => {
-    mutation.mutate(data)
+    mutation.mutate(props.list.id)
   }
   return (
-    <dialog open={props.addListOpen}>
+    <dialog open={props.deleteListOpen}>
       <article>
         <header>
-          <a onClick={() => props.setAddListOpen(false)} href="#close" aria-label="Close" className="close"></a>
-          Add list
+          <a onClick={() => props.setDeleteListOpen(null)} href="#close" aria-label="Close" className="close"></a>
+          Are you sure you want to delete this list?
         </header>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <label>List name</label>
-          <input {...register('name')} placeholder="List name" />
+          <label>{props.list && props.list.name}</label>
           <button aria-busy={mutation.isLoading ? true : false} className="contrast">
-            Add list
+            Delete list
           </button>
         </form>
       </article>

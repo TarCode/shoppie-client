@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query'
+import { useMutation } from 'react-query'
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
 
@@ -52,18 +52,18 @@ export function Login() {
     <form onClick={() => clearErrors()} onSubmit={handleSubmit(onSubmit)}>
       <h2>Login</h2>
       <label htmlFor="email">Email {errors.email && <span className="error">(This field is required)</span>}</label>
-      <input aria-invalid={errors.email ? true : false} {...register('email')} type="email" placeholder="Email" />
+      <input aria-invalid={errors.email ? true : undefined} {...register('email')} type="email" placeholder="Email" />
       <label htmlFor="password">
         Password {errors.password && <span className="error">(This field is required)</span>}
       </label>
       <input
-        aria-invalid={errors.password ? true : false}
+        aria-invalid={errors.password ? true : undefined}
         {...register('password')}
         type="password"
         placeholder="Password"
       />
       {errors.form && <span className="error">{errors.form.message as unknown as string}</span>}
-      <button aria-busy={mutation.isLoading ? true : false} disabled={mutation.isLoading} type="submit">
+      <button aria-busy={mutation.isLoading ? true : undefined} disabled={mutation.isLoading} type="submit">
         Submit
       </button>
     </form>
