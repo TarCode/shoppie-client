@@ -59,13 +59,13 @@ export function List() {
               <b>{item.name}</b>
             </button>
 
-            <div className="col">
+            {/* <div className="col">
               <button role="button" className="contrast outline action-btn">
                 Edit
               </button>
-            </div>
+            </div> */}
             <div className="col">
-              <button onClick={() => setItemToDelete(item)} role="button" className="contrast outline action-btn">
+              <button onClick={() => setItemToDelete(item)} className="contrast outline action-btn">
                 Delete
               </button>
             </div>
