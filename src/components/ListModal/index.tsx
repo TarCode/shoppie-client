@@ -34,7 +34,7 @@ export function ListModal(props: any) {
     <dialog open={props.addListOpen}>
       <article>
         <header>
-          <a onClick={() => props.setAddListOpen(false)} href="#close" aria-label="Close" className="close"></a>
+          <a onClick={() => props.setAddListOpen(false)} aria-label="Close" className="close"></a>
           Add list
         </header>
         <form onSubmit={handleSubmit(onSubmit)}>

@@ -29,7 +29,7 @@ export function DeleteItemModal(props: any) {
     <dialog open={props.deleteItemOpen}>
       <article>
         <header>
-          <a onClick={() => props.setDeleteItemOpen(null)} href="#close" aria-label="Close" className="close"></a>
+          <a onClick={() => props.setDeleteItemOpen(null)} aria-label="Close" className="close"></a>
           Are you sure you want to delete this item?
         </header>
         <form onSubmit={handleSubmit(onSubmit)}>

@@ -2,11 +2,14 @@ import axios from 'axios'
 import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
+import { DeleteItemModal } from '../../components/DeleteItemModal'
 import { ItemModal } from '../../components/ItemModal'
 
 export function List() {
   const { id } = useParams()
   const [addItemOpen, setAddItemOpen] = useState(false)
+  const [itemToDelete, setItemToDelete] = useState()
+
   const stringifiedUser = localStorage.getItem('user') as string
   const user = JSON.parse(stringifiedUser)
   const getList = () =>
@@ -21,10 +24,6 @@ export function List() {
     },
   })
 
-  const setItemToDelete = (item: any) => {}
-
-  console.log('LIST ITEMS', items)
-
   return (
     <div>
       <a style={{ float: 'right' }} onClick={() => setAddItemOpen(true)} href="#" role="button" className="contrast">
@@ -33,6 +32,15 @@ export function List() {
       <h3>List</h3>
       {addItemOpen && (
         <ItemModal listId={id} token={user.token} addItemOpen={addItemOpen} setAddItemOpen={setAddItemOpen} />
+      )}
+      {!!itemToDelete && (
+        <DeleteItemModal
+          token={user.token}
+          setDeleteItemOpen={() => setItemToDelete(undefined)}
+          deleteItemOpen={!!itemToDelete}
+          item={itemToDelete}
+          refetch={() => refetch()}
+        />
       )}
       {items && !!items.length ? (
         items.map((item: any) => (

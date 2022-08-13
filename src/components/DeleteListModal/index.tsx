@@ -29,7 +29,7 @@ export function DeleteListModal(props: any) {
     <dialog open={props.deleteListOpen}>
       <article>
         <header>
-          <a onClick={() => props.setDeleteListOpen(null)} href="#close" aria-label="Close" className="close"></a>
+          <a onClick={() => props.setDeleteListOpen(null)} aria-label="Close" className="close"></a>
           Are you sure you want to delete this list?
         </header>
         <form onSubmit={handleSubmit(onSubmit)}>

@@ -36,7 +36,7 @@ export function ItemModal(props: any) {
     <dialog open={props.addItemOpen}>
       <article>
         <header>
-          <a onClick={() => props.setAddItemOpen(false)} href="#close" aria-label="Close" className="close"></a>
+          <a onClick={() => props.setAddItemOpen(false)} aria-label="Close" className="close"></a>
           Add item
         </header>
         <form onSubmit={handleSubmit(onSubmit)}>

@@ -1,7 +1,6 @@
 import axios from 'axios'
 import { useState } from 'react'
 import { useQuery } from 'react-query'
-import { Nav } from '../../components/nav'
 import { ListModal } from '../../components/ListModal'
 import { DeleteListModal } from '../../components/DeleteListModal'
 import { useNavigate } from 'react-router-dom'
@@ -26,7 +25,6 @@ export function Lists() {
 
   return (
     <div>
-      <Nav />
       <a style={{ float: 'right' }} onClick={() => setAddListOpen(true)} href="#" role="button" className="contrast">
         Add list
       </a>
