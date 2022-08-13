@@ -1,10 +1,12 @@
 import axios from 'axios'
+import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
+import { ItemModal } from '../../components/ItemModal'
 
 export function List() {
   const { id } = useParams()
-
+  const [addItemOpen, setAddItemOpen] = useState(false)
   const stringifiedUser = localStorage.getItem('user') as string
   const user = JSON.parse(stringifiedUser)
   const getList = () =>
@@ -25,7 +27,13 @@ export function List() {
 
   return (
     <div>
-      <h2>List</h2>
+      <a style={{ float: 'right' }} onClick={() => setAddItemOpen(true)} href="#" role="button" className="contrast">
+        Add item
+      </a>
+      <h3>List</h3>
+      {addItemOpen && (
+        <ItemModal listId={id} token={user.token} addItemOpen={addItemOpen} setAddItemOpen={setAddItemOpen} />
+      )}
       {items && !!items.length ? (
         items.map((item: any) => (
           <div key={item.id} style={{ display: 'flex' }}>
