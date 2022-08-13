@@ -13,13 +13,26 @@ export function List() {
 
   const stringifiedUser = localStorage.getItem('user') as string
   const user = JSON.parse(stringifiedUser)
+
   const getList = () =>
+    axios('http://localhost:8080/lists/' + id, {
+      headers: {
+        'x-access-token': user.token,
+      },
+    })
+  const { data: list } = useQuery(['list', id], getList, {
+    select: (response) => {
+      return response.data
+    },
+  })
+
+  const getItems = () =>
     axios('http://localhost:8080/items/list/' + id, {
       headers: {
         'x-access-token': user.token,
       },
     })
-  const { data: items, refetch } = useQuery(['list', id], getList, {
+  const { data: items, refetch } = useQuery(['list-items', id], getItems, {
     select: (response) => {
       return response.data
     },
@@ -39,7 +52,7 @@ export function List() {
           Add item
         </button>
       </div>
-      <h3>List</h3>
+      <h3>{list && list.name}</h3>
       {addItemOpen && (
         <ItemModal listId={id} token={user.token} addItemOpen={addItemOpen} setAddItemOpen={setAddItemOpen} />
       )}
@@ -66,7 +79,7 @@ export function List() {
             </div> */}
             <div className="col">
               <button onClick={() => setItemToDelete(item)} className="contrast outline action-btn">
-                Delete
+                <span className="material-icons md-36">delete</span>
               </button>
             </div>
           </div>

@@ -50,12 +50,12 @@ export function Lists() {
 
               <div className="col">
                 <button role="button" className="contrast outline action-btn">
-                  Edit
+                  <span className="material-icons md-36">edit</span>
                 </button>
               </div>
               <div className="col">
                 <button onClick={() => setListToDelete(list)} role="button" className="contrast outline action-btn">
-                  Delete
+                  <span className="material-icons md-36">delete</span>
                 </button>
               </div>
             </div>
