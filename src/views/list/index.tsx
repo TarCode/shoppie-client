@@ -1,12 +1,13 @@
 import axios from 'axios'
 import { useState } from 'react'
 import { useQuery } from 'react-query'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { DeleteItemModal } from '../../components/DeleteItemModal'
 import { ItemModal } from '../../components/ItemModal'
 
 export function List() {
   const { id } = useParams()
+  const navigate = useNavigate()
   const [addItemOpen, setAddItemOpen] = useState(false)
   const [itemToDelete, setItemToDelete] = useState()
 
@@ -26,9 +27,18 @@ export function List() {
 
   return (
     <div>
-      <a style={{ float: 'right' }} onClick={() => setAddItemOpen(true)} href="#" role="button" className="contrast">
-        Add item
-      </a>
+      <div style={{ display: 'flex', float: 'right' }}>
+        <button
+          style={{ marginRight: '8px', width: '120px' }}
+          onClick={() => navigate(-1)}
+          className="outline contrast"
+        >
+          Back
+        </button>
+        <button style={{ width: '150px' }} onClick={() => setAddItemOpen(true)} className="contrast">
+          Add item
+        </button>
+      </div>
       <h3>List</h3>
       {addItemOpen && (
         <ItemModal listId={id} token={user.token} addItemOpen={addItemOpen} setAddItemOpen={setAddItemOpen} />
