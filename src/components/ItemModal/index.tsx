@@ -10,7 +10,7 @@ export function ItemModal(props: any) {
     (data) =>
       axios({
         method: 'post',
-        url: 'http://localhost:8080/items/',
+        url: 'https://murmuring-harbor-47924.herokuapp.com/items/',
         data,
         headers: {
           'x-access-token': props.token,

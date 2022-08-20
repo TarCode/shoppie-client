@@ -1,6 +1,7 @@
 import { useMutation } from 'react-query'
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
+import { Link } from 'react-router-dom'
 
 export function Login() {
   const {
@@ -15,7 +16,7 @@ export function Login() {
     (data) =>
       axios({
         method: 'post',
-        url: 'http://localhost:8080/user/login',
+        url: 'https://murmuring-harbor-47924.herokuapp.com/user/login',
         data,
       }),
     {
@@ -66,6 +67,9 @@ export function Login() {
       <button aria-busy={mutation.isLoading ? true : undefined} disabled={mutation.isLoading} type="submit">
         Submit
       </button>
+      <Link to="/register" role="button" className='outline'>
+        Need an an account?
+      </Link>
     </form>
   )
 }

@@ -9,7 +9,7 @@ export function DeleteItemModal(props: any) {
     (id) =>
       axios({
         method: 'delete',
-        url: 'http://localhost:8080/items/' + id,
+        url: 'https://murmuring-harbor-47924.herokuapp.com/items/' + id,
         headers: {
           'x-access-token': props.token,
         },

@@ -12,7 +12,7 @@ export function Lists() {
   const stringifiedUser = localStorage.getItem('user') as string
   const user = JSON.parse(stringifiedUser)
   const getLists = () =>
-    axios('http://localhost:8080/lists/', {
+    axios('https://murmuring-harbor-47924.herokuapp.com/lists/', {
       headers: {
         'x-access-token': user.token,
       },
@@ -41,7 +41,7 @@ export function Lists() {
           refetch={() => refetch()}
         />
       )}
-      {lists
+      {lists && lists.length
         ? lists.map((list: any) => (
             <div key={list.id} style={{ display: 'flex' }}>
               <button onClick={() => navigate(list.id)} className="contrast outline list-btn">
@@ -60,7 +60,11 @@ export function Lists() {
               </div>
             </div>
           ))
-        : []}
+        : (
+          <div>
+            No lists yet
+          </div>
+        )}
     </div>
   )
 }

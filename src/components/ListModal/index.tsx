@@ -12,7 +12,7 @@ export function ListModal(props: any) {
     (data) =>
       axios({
         method: 'post',
-        url: 'http://localhost:8080/lists/',
+        url: 'https://murmuring-harbor-47924.herokuapp.com/lists/',
         data,
         headers: {
           'x-access-token': props.token,

@@ -15,7 +15,7 @@ export function List() {
   const user = JSON.parse(stringifiedUser)
 
   const getList = () =>
-    axios('http://localhost:8080/lists/' + id, {
+    axios('https://murmuring-harbor-47924.herokuapp.com/lists/' + id, {
       headers: {
         'x-access-token': user.token,
       },
@@ -27,7 +27,7 @@ export function List() {
   })
 
   const getItems = () =>
-    axios('http://localhost:8080/items/list/' + id, {
+    axios('https://murmuring-harbor-47924.herokuapp.com/items/list/' + id, {
       headers: {
         'x-access-token': user.token,
       },
