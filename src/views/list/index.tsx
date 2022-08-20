@@ -20,7 +20,7 @@ export function List() {
         'x-access-token': user.token,
       },
     })
-  const { data: list } = useQuery(['list', id], getList, {
+  const { data: list, isLoading: isLoadingList } = useQuery(['list', id], getList, {
     select: (response) => {
       return response.data
     },
@@ -38,7 +38,7 @@ export function List() {
     },
   })
 
-  return isLoading ? 
+  return isLoading || isLoadingList ? 
   <div>
     Loading items...
   </div> : (

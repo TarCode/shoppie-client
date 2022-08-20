@@ -9,6 +9,7 @@ export function Lists() {
   const navigate = useNavigate()
   const [listToDelete, setListToDelete] = useState()
   const [addListOpen, setAddListOpen] = useState(false)
+  const [editList, setEditList] = useState(false)
   const stringifiedUser = localStorage.getItem('user') as string
   const user = JSON.parse(stringifiedUser)
   const getLists = () =>
@@ -31,8 +32,8 @@ export function Lists() {
         Add list
       </a>
       <h3>Lists</h3>
-      {addListOpen && (
-        <ListModal refetch={refetch} token={user.token} addListOpen={addListOpen} setAddListOpen={setAddListOpen} />
+      {(addListOpen || editList) && (
+        <ListModal refetch={refetch} token={user.token} addListOpen={addListOpen || !!editList} setAddListOpen={editList ? setEditList : setAddListOpen} list={editList} />
       )}
       {!!listToDelete && (
         <DeleteListModal
@@ -51,7 +52,7 @@ export function Lists() {
               </button>
 
               <div className="col">
-                <button role="button" className="contrast outline action-btn">
+                <button onClick={() => setEditList(list)} role="button" className="contrast outline action-btn">
                   <span className="material-icons md-36">edit</span>
                 </button>
               </div>

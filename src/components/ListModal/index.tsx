@@ -5,19 +5,31 @@ import { useMutation, useQueryClient } from 'react-query'
 export function ListModal(props: any) {
   const queryClient = useQueryClient()
   const { register, handleSubmit, setValue } = useForm({
-    defaultValues: { name: 'List-' + new Date().toString().split(' ').slice(0, 5).join('-').replaceAll(':', '-') },
+    defaultValues: { 
+      name: props.list ? props.list.name : 'List-' + new Date().toString().split(' ').slice(0, 5).join('-').replaceAll(':', '-') 
+    },
   })
 
   const mutation = useMutation(
-    (data) =>
-      axios({
-        method: 'post',
-        url: 'https://murmuring-harbor-47924.herokuapp.com/lists/',
+    (data) => {
+
+      let url =  'https://murmuring-harbor-47924.herokuapp.com/lists/'
+      let method = 'post'
+
+      if (props.list) {
+        url =  'https://murmuring-harbor-47924.herokuapp.com/lists/' + props.list.id
+        method = 'put'
+      }
+
+      return axios({
+        method,
+        url,
         data,
         headers: {
           'x-access-token': props.token,
         },
-      }),
+      })
+    },
     {
       onSettled: async () => {
         await queryClient.invalidateQueries()
@@ -30,18 +42,20 @@ export function ListModal(props: any) {
   const onSubmit = (data: any) => {
     mutation.mutate(data)
   }
+  const action = props.id ? 'Edit' : 'Add'
+
   return (
     <dialog open={props.addListOpen}>
       <article>
         <header>
           <a onClick={() => props.setAddListOpen(false)} aria-label="Close" className="close"></a>
-          Add list
+          {action} list
         </header>
         <form onSubmit={handleSubmit(onSubmit)}>
           <label>List name</label>
           <input {...register('name')} placeholder="List name" />
           <button aria-busy={mutation.isLoading ? true : false} className="contrast">
-            Add list
+            {action} list
           </button>
         </form>
       </article>
