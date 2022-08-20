@@ -17,13 +17,15 @@ export function Lists() {
         'x-access-token': user.token,
       },
     })
-  const { data: lists, refetch } = useQuery(['lists'], getLists, {
+  const { data: lists, isLoading, refetch } = useQuery(['lists'], getLists, {
     select: (response) => {
       return response.data
     },
   })
 
-  return (
+  return isLoading ? <div>
+    Loading lists...
+  </div> : (
     <div>
       <a style={{ float: 'right' }} onClick={() => setAddListOpen(true)} href="#" role="button" className="contrast">
         Add list

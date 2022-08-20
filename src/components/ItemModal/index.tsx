@@ -18,7 +18,7 @@ export function ItemModal(props: any) {
       }),
     {
       onSettled: async () => {
-        await queryClient.invalidateQueries(['list', props.listId])
+        await queryClient.invalidateQueries()
         setValue('name', '')
         props.setAddItemOpen(false)
       },

@@ -32,13 +32,16 @@ export function List() {
         'x-access-token': user.token,
       },
     })
-  const { data: items, refetch } = useQuery(['list-items', id], getItems, {
+  const { data: items, isLoading, refetch } = useQuery(['list-items', id], getItems, {
     select: (response) => {
       return response.data
     },
   })
 
-  return (
+  return isLoading ? 
+  <div>
+    Loading items...
+  </div> : (
     <div>
       <div style={{ display: 'flex', float: 'right' }}>
         <button

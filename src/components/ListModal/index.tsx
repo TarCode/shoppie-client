@@ -20,7 +20,7 @@ export function ListModal(props: any) {
       }),
     {
       onSettled: async () => {
-        await queryClient.invalidateQueries(['lists'])
+        await queryClient.invalidateQueries()
         setValue('name', '')
         props.setAddListOpen(false)
       },
