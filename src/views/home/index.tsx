@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom'
 import { Lists } from '../lists'
 import { List } from '../list'
-import { Nav } from '../../components/nav'
+import { Nav } from '../Nav'
 
 export function Home() {
   return (

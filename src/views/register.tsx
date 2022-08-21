@@ -1,9 +1,15 @@
 import { useMutation } from 'react-query'
-import { useForm } from 'react-hook-form'
+import { useForm, Controller } from 'react-hook-form'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
+import { TextField } from '@mui/material'
+import Button from '@mui/material/Button'
+import Card from '@mui/joy/Card'
+import { useCallback, useState } from 'react'
 
 export function Register() {
+  const [, updateState] = useState();
+  const forceUpdate = useCallback(() => updateState(undefined), []);
   const {
     register,
     handleSubmit,
@@ -42,6 +48,7 @@ export function Register() {
             setError('password', { message: password })
           }
         }
+        forceUpdate()
       },
     },
   )
@@ -50,27 +57,45 @@ export function Register() {
     mutation.mutate(data)
   }
   return (
-    <form onClick={() => clearErrors()} onSubmit={handleSubmit(onSubmit)}>
-      <h2>Register</h2>
-      <label htmlFor="email">Email {errors.email && <span className="error">(This field is required)</span>}</label>
-      <input aria-invalid={errors.email ? true : undefined} {...register('email')} type="email" placeholder="Email" />
-      <label htmlFor="password">
-        Password {errors.password && <span className="error">(This field is required)</span>}
-      </label>
-      <input
-        aria-invalid={errors.password ? true : undefined}
-        {...register('password')}
-        type="password"
-        placeholder="Password"
-      />
-      {errors.form && <span className="error">{errors.form.message as unknown as string}</span>}
-      <button aria-busy={mutation.isLoading ? true : undefined} disabled={mutation.isLoading} type="submit">
-        Submit
-      </button>
-      <Link to="/" role="button" className='outline'>
-        Already have an account?
-      </Link>
+    <form style={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: '100vh'
+    }} onClick={() => clearErrors()} onSubmit={handleSubmit(onSubmit)}>
+      <Card sx={{ width: '320px' }}>
+        <h2>Register</h2>
+        <TextField
+          label='Email'
+          error={!!errors.email}
+          {...register('email')}
+          placeholder="Email"
+        />
+        <br />
+        <label htmlFor="password">
 
+        </label>
+        <TextField
+          label='Password'
+          error={!!errors.password}
+          {...register('password')}
+          type="password"
+          placeholder="Password"
+        />
+        {errors.form && <span className="error"><br />{errors.form.message as unknown as string}</span>}
+        <br />
+        <Button aria-busy={mutation.isLoading ? true : undefined} disabled={mutation.isLoading} type="submit">
+          {
+            mutation.isLoading ?
+              "Creating account..." :
+              "Create account"
+          }
+        </Button>
+        <br />
+        <Link to="/" role="button" className='outline'>
+          Already have an an account?
+        </Link>
+      </Card>
     </form>
   )
 }

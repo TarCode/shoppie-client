@@ -2,8 +2,8 @@ import axios from 'axios'
 import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { useNavigate, useParams } from 'react-router-dom'
-import { DeleteItemModal } from '../../components/DeleteItemModal'
-import { ItemModal } from '../../components/ItemModal'
+import { DeleteItemModal } from '../../modals/DeleteItemModal'
+import { ItemModal } from '../../modals/ItemModal'
 
 export function List() {
   const { id } = useParams()

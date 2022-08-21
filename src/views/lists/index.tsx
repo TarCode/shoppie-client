@@ -1,8 +1,8 @@
 import axios from 'axios'
 import { useState } from 'react'
 import { useQuery } from 'react-query'
-import { ListModal } from '../../components/ListModal'
-import { DeleteListModal } from '../../components/DeleteListModal'
+import { ListModal } from '../../modals/ListModal'
+import { DeleteListModal } from '../../modals/DeleteListModal'
 import { useNavigate } from 'react-router-dom'
 
 export function Lists() {
