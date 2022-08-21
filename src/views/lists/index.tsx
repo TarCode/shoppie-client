@@ -4,6 +4,13 @@ import { useQuery } from 'react-query'
 import { ListModal } from '../../modals/ListModal'
 import { DeleteListModal } from '../../modals/DeleteListModal'
 import { useNavigate } from 'react-router-dom'
+import Container from '@mui/material/Container'
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import ListItemText from '@mui/material/ListItemText';
+import IconButton from '@mui/material/IconButton';
+import { ListItemButton } from '@mui/material'
 
 export function Lists() {
   const navigate = useNavigate()
@@ -27,7 +34,7 @@ export function Lists() {
   return isLoading ? <div>
     Loading lists...
   </div> : (
-    <div>
+    <Container>
       <a style={{ float: 'right' }} onClick={() => setAddListOpen(true)} href="#" role="button" className="contrast">
         Add list
       </a>
@@ -44,30 +51,41 @@ export function Lists() {
           refetch={() => refetch()}
         />
       )}
-      {lists && lists.length
-        ? lists.map((list: any) => (
-            <div key={list.id} style={{ display: 'flex' }}>
-              <button onClick={() => navigate(list.id)} className="contrast outline list-btn">
-                <b>{list.name}</b>
-              </button>
 
-              <div className="col">
-                <button onClick={() => setEditList(list)} role="button" className="contrast outline action-btn">
-                  <span className="material-icons md-36">edit</span>
-                </button>
-              </div>
-              <div className="col">
-                <button onClick={() => setListToDelete(list)} role="button" className="contrast outline action-btn">
-                  <span className="material-icons md-36">delete</span>
-                </button>
-              </div>
-            </div>
-          ))
+
+      {lists && lists.length
+        ? <List dense>
+          {
+            lists.map((list: any) => (
+              <ListItem
+                key={list.id}
+                secondaryAction={
+                  <IconButton onClick={() => setListToDelete(list)} edge="end" aria-label="delete">
+                    <span className="material-icons md-36">delete</span>
+                  </IconButton>
+                }
+              >
+                <ListItemAvatar>
+                  <IconButton onClick={() => setEditList(list)} edge="end" aria-label="edit">
+                    <span className="material-icons md-36">edit</span>
+                  </IconButton>
+                </ListItemAvatar>
+                <ListItemButton onClick={() => navigate(list.id)}>
+                  <ListItemText
+                    primary={list.name}
+                    secondary={list.createdAt}
+                  />
+                </ListItemButton>
+              </ListItem>
+
+            ))
+          }
+        </List>
         : (
           <div>
             No lists yet
           </div>
         )}
-    </div>
+    </Container>
   )
 }
