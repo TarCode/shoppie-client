@@ -1,21 +1,13 @@
-import axios from 'axios'
 import { useForm } from 'react-hook-form'
 import { useMutation, useQueryClient } from 'react-query'
+import { itemPostApi } from '../../api'
 
 export function ItemModal(props: any) {
   const queryClient = useQueryClient()
   const { register, handleSubmit, setValue } = useForm()
 
   const mutation = useMutation(
-    (data) =>
-      axios({
-        method: 'post',
-        url: 'https://murmuring-harbor-47924.herokuapp.com/items/',
-        data,
-        headers: {
-          'x-access-token': props.token,
-        },
-      }),
+    (data) => itemPostApi(data),
     {
       onSettled: async () => {
         await queryClient.invalidateQueries()

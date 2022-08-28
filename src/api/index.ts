@@ -71,3 +71,24 @@ export const itemsGetApi = (listId: string) => (
     },
   })
 )
+
+export const itemPostApi = (data: any) => (
+  axios({
+    method: 'post',
+    url: 'https://murmuring-harbor-47924.herokuapp.com/items/',
+    data,
+    headers: {
+      'x-access-token': user.token,
+    },
+  })
+)
+
+export const itemDeleteApi = (id: string) => (
+  axios({
+    method: 'delete',
+    url: 'https://murmuring-harbor-47924.herokuapp.com/items/' + id,
+    headers: {
+      'x-access-token': user.token,
+    },
+  })
+)
