@@ -25,3 +25,19 @@ export const listsGetApi = () => (
     },
   })
 )
+
+export const listGetApi = (id: string) => (
+  axios('https://murmuring-harbor-47924.herokuapp.com/lists/' + id, {
+    headers: {
+      'x-access-token': user.token,
+    },
+  })
+)
+
+export const itemsGetApi = (listId: string) => (
+  axios('https://murmuring-harbor-47924.herokuapp.com/items/list/' + listId, {
+    headers: {
+      'x-access-token': user.token,
+    },
+  })
+)
