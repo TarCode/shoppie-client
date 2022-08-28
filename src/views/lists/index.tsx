@@ -11,6 +11,7 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import IconButton from '@mui/material/IconButton';
 import { ListItemButton } from '@mui/material'
+import { listsGetApi } from '../../api'
 
 export function Lists() {
   const navigate = useNavigate()
@@ -20,11 +21,7 @@ export function Lists() {
   const stringifiedUser = localStorage.getItem('user') as string
   const user = JSON.parse(stringifiedUser)
   const getLists = () =>
-    axios('https://murmuring-harbor-47924.herokuapp.com/lists/', {
-      headers: {
-        'x-access-token': user.token,
-      },
-    })
+    listsGetApi()
   const { data: lists, isLoading, refetch } = useQuery(['lists'], getLists, {
     select: (response) => {
       return response.data

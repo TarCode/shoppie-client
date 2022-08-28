@@ -1,12 +1,12 @@
-import axios from 'axios'
 import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { useNavigate, useParams } from 'react-router-dom'
+import { itemsGetApi, listGetApi } from '../../api'
 import { DeleteItemModal } from '../../modals/DeleteItemModal'
 import { ItemModal } from '../../modals/ItemModal'
 
 export function List() {
-  const { id } = useParams()
+  const { id = '' } = useParams()
   const navigate = useNavigate()
   const [addItemOpen, setAddItemOpen] = useState(false)
   const [itemToDelete, setItemToDelete] = useState()
@@ -14,24 +14,14 @@ export function List() {
   const stringifiedUser = localStorage.getItem('user') as string
   const user = JSON.parse(stringifiedUser)
 
-  const getList = () =>
-    axios('https://murmuring-harbor-47924.herokuapp.com/lists/' + id, {
-      headers: {
-        'x-access-token': user.token,
-      },
-    })
+  const getList = () => listGetApi(id)
   const { data: list, isLoading: isLoadingList } = useQuery(['list', id], getList, {
     select: (response) => {
       return response.data
     },
   })
 
-  const getItems = () =>
-    axios('https://murmuring-harbor-47924.herokuapp.com/items/list/' + id, {
-      headers: {
-        'x-access-token': user.token,
-      },
-    })
+  const getItems = () => itemsGetApi(id)
   const { data: items, isLoading, refetch } = useQuery(['list-items', id], getItems, {
     select: (response) => {
       return response.data
