@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { ListModal } from '../../modals/ListModal'
@@ -18,8 +17,6 @@ export function Lists() {
   const [listToDelete, setListToDelete] = useState()
   const [addListOpen, setAddListOpen] = useState(false)
   const [editList, setEditList] = useState(false)
-  const stringifiedUser = localStorage.getItem('user') as string
-  const user = JSON.parse(stringifiedUser)
   const getLists = () =>
     listsGetApi()
   const { data: lists, isLoading, refetch } = useQuery(['lists'], getLists, {
@@ -37,11 +34,15 @@ export function Lists() {
       </a>
       <h3>Lists</h3>
       {(addListOpen || editList) && (
-        <ListModal refetch={refetch} token={user.token} addListOpen={addListOpen || !!editList} setAddListOpen={editList ? setEditList : setAddListOpen} list={editList} />
+        <ListModal 
+          refetch={refetch} 
+          addListOpen={addListOpen || !!editList} 
+          setAddListOpen={editList ? setEditList : setAddListOpen} 
+          list={editList} 
+        />
       )}
       {!!listToDelete && (
         <DeleteListModal
-          token={user.token}
           setDeleteListOpen={() => setListToDelete(undefined)}
           deleteListOpen={!!listToDelete}
           list={listToDelete}

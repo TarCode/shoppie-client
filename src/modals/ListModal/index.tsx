@@ -1,6 +1,6 @@
-import axios from 'axios'
 import { useForm } from 'react-hook-form'
 import { useMutation, useQueryClient } from 'react-query'
+import { listPostApi, listPutApi } from '../../api'
 
 export function ListModal(props: any) {
   const queryClient = useQueryClient()
@@ -12,23 +12,10 @@ export function ListModal(props: any) {
 
   const mutation = useMutation(
     (data) => {
-
-      let url =  'https://murmuring-harbor-47924.herokuapp.com/lists/'
-      let method = 'post'
-
       if (props.list) {
-        url =  'https://murmuring-harbor-47924.herokuapp.com/lists/' + props.list.id
-        method = 'put'
+        return listPutApi(props.list.id, data)
       }
-
-      return axios({
-        method,
-        url,
-        data,
-        headers: {
-          'x-access-token': props.token,
-        },
-      })
+      return listPostApi(data)
     },
     {
       onSettled: async () => {

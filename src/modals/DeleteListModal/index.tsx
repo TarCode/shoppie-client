@@ -1,19 +1,12 @@
-import axios from 'axios'
 import { useForm } from 'react-hook-form'
 import { useMutation, useQueryClient } from 'react-query'
+import { listDeleteApi } from '../../api'
 
 export function DeleteListModal(props: any) {
   const { handleSubmit } = useForm()
   const queryClient = useQueryClient()
   const mutation = useMutation(
-    (id) =>
-      axios({
-        method: 'delete',
-        url: 'https://murmuring-harbor-47924.herokuapp.com/lists/' + id,
-        headers: {
-          'x-access-token': props.token,
-        },
-      }),
+    (id: string) => listDeleteApi(id),
     {
       onSettled: async () => {
         await queryClient.invalidateQueries(['lists'])
@@ -22,7 +15,7 @@ export function DeleteListModal(props: any) {
     },
   )
 
-  const onSubmit = (data: any) => {
+  const onSubmit = () => {
     mutation.mutate(props.list.id)
   }
   return (
