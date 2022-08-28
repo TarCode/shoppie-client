@@ -6,6 +6,7 @@ import { TextField } from '@mui/material'
 import Button from '@mui/material/Button'
 import Card from '@mui/joy/Card'
 import { useCallback, useState } from 'react'
+import { loginApi } from '../api'
 
 export function Login() {
   const [, updateState] = useState();
@@ -20,11 +21,7 @@ export function Login() {
 
   const mutation = useMutation(
     (data) =>
-      axios({
-        method: 'post',
-        url: 'https://murmuring-harbor-47924.herokuapp.com/user/login',
-        data,
-      }),
+      loginApi(data),
     {
       onSuccess: (response) => {
         if (response.data) {

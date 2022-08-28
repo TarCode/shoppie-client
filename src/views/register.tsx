@@ -1,11 +1,11 @@
 import { useMutation } from 'react-query'
-import { useForm, Controller } from 'react-hook-form'
-import axios from 'axios'
+import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import { TextField } from '@mui/material'
 import Button from '@mui/material/Button'
 import Card from '@mui/joy/Card'
 import { useCallback, useState } from 'react'
+import { registerApi } from '../api'
 
 export function Register() {
   const [, updateState] = useState();
@@ -20,11 +20,7 @@ export function Register() {
 
   const mutation = useMutation(
     (data) =>
-      axios({
-        method: 'post',
-        url: 'https://murmuring-harbor-47924.herokuapp.com/user/register',
-        data,
-      }),
+      registerApi(data),
     {
       onSuccess: (response) => {
         if (response.data) {
