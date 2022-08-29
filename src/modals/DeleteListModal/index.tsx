@@ -1,3 +1,4 @@
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material'
 import { useForm } from 'react-hook-form'
 import { useMutation, useQueryClient } from 'react-query'
 import { listDeleteApi } from '../../api'
@@ -19,19 +20,25 @@ export function DeleteListModal(props: any) {
     mutation.mutate(props.list.id)
   }
   return (
-    <dialog open={props.deleteListOpen}>
+    <Dialog open={props.deleteListOpen} onClose={() => props.setDeleteListOpen(null)}>
       <article>
-        <header>
-          <a onClick={() => props.setDeleteListOpen(null)} aria-label="Close" className="close"></a>
+        <DialogTitle>
           Are you sure you want to delete this list?
-        </header>
+        </DialogTitle>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <label>{props.list && props.list.name}</label>
-          <button aria-busy={mutation.isLoading ? true : false} className="contrast">
-            Delete list
-          </button>
+          <DialogContent>
+            <DialogContentText>{props.list && props.list.name}</DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => props.setDeleteListOpen(null)}>
+              Cancel
+            </Button>
+            <Button variant="contained" disabled={mutation.isLoading ? true : false} type="submit">
+              Delete list
+            </Button>
+          </DialogActions>
         </form>
       </article>
-    </dialog>
+    </Dialog>
   )
 }

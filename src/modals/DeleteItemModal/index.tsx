@@ -1,3 +1,4 @@
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material'
 import { useForm } from 'react-hook-form'
 import { useMutation, useQueryClient } from 'react-query'
 import { itemDeleteApi } from '../../api'
@@ -19,19 +20,23 @@ export function DeleteItemModal(props: any) {
     mutation.mutate(props.item.id)
   }
   return (
-    <dialog open={props.deleteItemOpen}>
+    <Dialog open={props.deleteItemOpen} onClose={() => props.setDeleteItemOpen(null)}>
       <article>
-        <header>
-          <a onClick={() => props.setDeleteItemOpen(null)} aria-label="Close" className="close"></a>
-          Are you sure you want to delete this item?
-        </header>
+        <DialogTitle>Are you sure you want to delete this item?</DialogTitle>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <label>{props.item && props.item.name}</label>
-          <button aria-busy={mutation.isLoading ? true : false} className="contrast">
-            Delete item
-          </button>
+          <DialogContent>
+            <DialogContentText>{props.item && props.item.name}</DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => props.setDeleteItemOpen(null)}>
+              Cancel
+            </Button>
+            <Button type="submit" variant="contained" disabled={mutation.isLoading ? true : false}>
+              Delete item
+            </Button>
+          </DialogActions>
         </form>
       </article>
-    </dialog>
+    </Dialog >
   )
 }

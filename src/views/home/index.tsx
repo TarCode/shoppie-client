@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom'
 import { Lists } from '../lists'
-import { List } from '../list'
+import { ListView } from '../list'
 import { Nav } from '../Nav'
 
 export function Home() {
@@ -9,7 +9,7 @@ export function Home() {
       <Nav />
       <Routes>
         <Route element={<Lists />} path="/" />
-        <Route element={<List />} path="/:id" />
+        <Route element={<ListView />} path="/:id" />
       </Routes>
     </>
   )

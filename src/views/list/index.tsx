@@ -1,3 +1,4 @@
+import { Button, Container, IconButton, List, ListItem, ListItemText } from '@mui/material'
 import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -5,7 +6,7 @@ import { itemsGetApi, listGetApi } from '../../api'
 import { DeleteItemModal } from '../../modals/DeleteItemModal'
 import { ItemModal } from '../../modals/ItemModal'
 
-export function List() {
+export function ListView() {
   const { id = '' } = useParams()
   const navigate = useNavigate()
   const [addItemOpen, setAddItemOpen] = useState(false)
@@ -28,60 +29,60 @@ export function List() {
     },
   })
 
-  return isLoading || isLoadingList ? 
-  <div>
-    Loading items...
-  </div> : (
+  return isLoading || isLoadingList ?
     <div>
-      <div style={{ display: 'flex', float: 'right' }}>
-        <button
-          style={{ marginRight: '8px', width: '120px' }}
+      Loading items...
+    </div> : (
+      <Container>
+        <Button style={{ float: 'right' }} variant='contained' onClick={() => setAddItemOpen(true)}>
+          Add item
+        </Button>
+        <Button
+          style={{ marginRight: '8px', float: 'right' }}
           onClick={() => navigate(-1)}
-          className="outline contrast"
+          variant="outlined"
         >
           Back
-        </button>
-        <button style={{ width: '150px' }} onClick={() => setAddItemOpen(true)} className="contrast">
-          Add item
-        </button>
-      </div>
-      <h3>{list && list.name}</h3>
-      {addItemOpen && (
-        <ItemModal listId={id} token={user.token} addItemOpen={addItemOpen} setAddItemOpen={setAddItemOpen} />
-      )}
-      {!!itemToDelete && (
-        <DeleteItemModal
-          token={user.token}
-          setDeleteItemOpen={() => setItemToDelete(undefined)}
-          deleteItemOpen={!!itemToDelete}
-          item={itemToDelete}
-          refetch={() => refetch()}
-        />
-      )}
-      {items && !!items.length ? (
-        items.map((item: any) => (
-          <div key={item.id} style={{ display: 'flex' }}>
-            <button className="contrast outline item-btn">
-              <b>{item.name}</b>
-            </button>
+        </Button>
 
-            {/* <div className="col">
-              <button role="button" className="contrast outline action-btn">
-                Edit
-              </button>
-            </div> */}
-            <div className="col">
-              <button onClick={() => setItemToDelete(item)} className="contrast outline action-btn">
-                <span className="material-icons md-36">delete</span>
-              </button>
+        <h3>{list && list.name}</h3>
+        {addItemOpen && (
+          <ItemModal listId={id} token={user.token} addItemOpen={addItemOpen} setAddItemOpen={setAddItemOpen} />
+        )}
+        {!!itemToDelete && (
+          <DeleteItemModal
+            token={user.token}
+            setDeleteItemOpen={() => setItemToDelete(undefined)}
+            deleteItemOpen={!!itemToDelete}
+            item={itemToDelete}
+            refetch={() => refetch()}
+          />
+        )}
+        {items && !!items.length ?
+          <List dense>
+            {
+              items.map((item: any) => (
+                <ListItem
+                  key={item.id}
+                  secondaryAction={
+                    <IconButton onClick={() => setItemToDelete(item)} edge="end" aria-label="delete">
+                      <span className="material-icons md-36">delete</span>
+                    </IconButton>
+                  }
+                >
+                  <ListItemText
+                    primary={item.name}
+                    secondary={item.createdAt}
+                  />
+                </ListItem>
+
+              ))
+            }
+          </List> : (
+            <div>
+              <p>No items added to list</p>
             </div>
-          </div>
-        ))
-      ) : (
-        <div>
-          <p>No items added to list</p>
-        </div>
-      )}
-    </div>
-  )
+          )}
+      </Container>
+    )
 }
