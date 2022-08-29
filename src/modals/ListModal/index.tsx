@@ -1,3 +1,4 @@
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material'
 import { useForm } from 'react-hook-form'
 import { useMutation, useQueryClient } from 'react-query'
 import { listPostApi, listPutApi } from '../../api'
@@ -5,8 +6,8 @@ import { listPostApi, listPutApi } from '../../api'
 export function ListModal(props: any) {
   const queryClient = useQueryClient()
   const { register, handleSubmit, setValue } = useForm({
-    defaultValues: { 
-      name: props.list ? props.list.name : 'List-' + new Date().toString().split(' ').slice(0, 5).join('-').replaceAll(':', '-') 
+    defaultValues: {
+      name: props.list ? props.list.name : 'List-' + new Date().toString().split(' ').slice(0, 5).join('-').replaceAll(':', '-')
     },
   })
 
@@ -32,20 +33,22 @@ export function ListModal(props: any) {
   const action = props.id ? 'Edit' : 'Add'
 
   return (
-    <dialog open={props.addListOpen}>
-      <article>
-        <header>
-          <a onClick={() => props.setAddListOpen(false)} aria-label="Close" className="close"></a>
-          {action} list
-        </header>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <label>List name</label>
-          <input {...register('name')} placeholder="List name" />
-          <button aria-busy={mutation.isLoading ? true : false} className="contrast">
+    <Dialog maxWidth="sm" fullWidth open={props.addListOpen} onClose={() => props.setAddListOpen(false)}>
+      <DialogTitle>{action} list</DialogTitle>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <DialogContent>
+          <TextField {...register('name')} fullWidth placeholder="List name" label="List name" />
+
+        </DialogContent>
+        <DialogActions>
+          <Button variant="text" onClick={() => props.setAddListOpen(false)}>
+            Cancel
+          </Button>
+          <Button variant="contained" disabled={mutation.isLoading ? true : false} type="submit">
             {action} list
-          </button>
-        </form>
-      </article>
-    </dialog>
+          </Button>
+        </DialogActions>
+      </form>
+    </Dialog>
   )
 }

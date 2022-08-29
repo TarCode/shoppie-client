@@ -1,35 +1,38 @@
 import axios from "axios";
 
+
+// const BASE_URL = 'https://murmuring-harbor-47924.herokuapp.com'
+const BASE_URL = 'http://localhost:3001'
 const stringifiedUser = localStorage.getItem('user') as string
 const user = JSON.parse(stringifiedUser)
 
 export const loginApi = (data: any) => (
   axios({
     method: 'post',
-    url: 'https://murmuring-harbor-47924.herokuapp.com/user/login',
+    url: BASE_URL + '/users/login',
     data,
   })
 )
 export const registerApi = (data: any) => (
   axios({
     method: 'post',
-    url: 'https://murmuring-harbor-47924.herokuapp.com/user/register',
+    url: BASE_URL + '/users/register',
     data,
   })
 )
 
 export const listsGetApi = () => (
-  axios('https://murmuring-harbor-47924.herokuapp.com/lists/', {
+  axios(BASE_URL + '/lists/', {
     headers: {
-      'x-access-token': user.token,
+      'Authorization': user.token,
     },
   })
 )
 
 export const listGetApi = (id: string) => (
-  axios('https://murmuring-harbor-47924.herokuapp.com/lists/' + id, {
+  axios(BASE_URL + '/lists/' + id, {
     headers: {
-      'x-access-token': user.token,
+      'Authorization': user.token,
     },
   })
 )
@@ -37,37 +40,37 @@ export const listGetApi = (id: string) => (
 export const listPostApi = (data: any) => (
   axios({
     method: 'post',
-    url: 'https://murmuring-harbor-47924.herokuapp.com/lists/',
+    url: BASE_URL + '/lists/',
     data,
     headers: {
-      'x-access-token': user.token,
+      'Authorization': user.token,
     },
   })
 )
 
 export const listPutApi = (listId: string, data: any) => axios({
   method: 'put',
-  url: 'https://murmuring-harbor-47924.herokuapp.com/lists/' + listId,
+  url: BASE_URL + '/lists/' + listId,
   data,
   headers: {
-    'x-access-token': user.token,
+    'Authorization': user.token,
   },
 })
 
 export const listDeleteApi = (id: string) => (
   axios({
     method: 'delete',
-    url: 'https://murmuring-harbor-47924.herokuapp.com/lists/' + id,
+    url: BASE_URL + '/lists/' + id,
     headers: {
-      'x-access-token': user.token,
+      'Authorization': user.token,
     },
   })
 )
 
 export const itemsGetApi = (listId: string) => (
-  axios('https://murmuring-harbor-47924.herokuapp.com/items/list/' + listId, {
+  axios(BASE_URL + '/items/list/' + listId, {
     headers: {
-      'x-access-token': user.token,
+      'Authorization': user.token,
     },
   })
 )
@@ -75,10 +78,10 @@ export const itemsGetApi = (listId: string) => (
 export const itemPostApi = (data: any) => (
   axios({
     method: 'post',
-    url: 'https://murmuring-harbor-47924.herokuapp.com/items/',
+    url: BASE_URL + '/items/',
     data,
     headers: {
-      'x-access-token': user.token,
+      'Authorization': user.token,
     },
   })
 )
@@ -86,9 +89,9 @@ export const itemPostApi = (data: any) => (
 export const itemDeleteApi = (id: string) => (
   axios({
     method: 'delete',
-    url: 'https://murmuring-harbor-47924.herokuapp.com/items/' + id,
+    url: BASE_URL + '/items/' + id,
     headers: {
-      'x-access-token': user.token,
+      'Authorization': user.token,
     },
   })
 )

@@ -9,7 +9,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import IconButton from '@mui/material/IconButton';
-import { ListItemButton } from '@mui/material'
+import { Button, ListItemButton } from '@mui/material'
 import { listsGetApi } from '../../api'
 
 export function Lists() {
@@ -29,16 +29,16 @@ export function Lists() {
     Loading lists...
   </div> : (
     <Container>
-      <a style={{ float: 'right' }} onClick={() => setAddListOpen(true)} href="#" role="button" className="contrast">
+      <Button variant="contained" style={{ float: 'right' }} onClick={() => setAddListOpen(true)}>
         Add list
-      </a>
+      </Button>
       <h3>Lists</h3>
       {(addListOpen || editList) && (
-        <ListModal 
-          refetch={refetch} 
-          addListOpen={addListOpen || !!editList} 
-          setAddListOpen={editList ? setEditList : setAddListOpen} 
-          list={editList} 
+        <ListModal
+          refetch={refetch}
+          addListOpen={addListOpen || !!editList}
+          setAddListOpen={editList ? setEditList : setAddListOpen}
+          list={editList}
         />
       )}
       {!!listToDelete && (
