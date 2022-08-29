@@ -1,8 +1,8 @@
 import axios from "axios";
 
 
-// const BASE_URL = 'https://murmuring-harbor-47924.herokuapp.com'
-const BASE_URL = 'http://localhost:3001'
+const BASE_URL = 'https://murmuring-harbor-47924.herokuapp.com'
+// const BASE_URL = 'http://localhost:3001'
 const stringifiedUser = localStorage.getItem('user') as string
 const user = JSON.parse(stringifiedUser)
 
